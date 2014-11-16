@@ -4,3 +4,9 @@
   height: auto;
   border: none;
 }
+
+#objectsMenu {
+    width:auto;
+    height:265px;
+    overflow-y:scroll;
+}
