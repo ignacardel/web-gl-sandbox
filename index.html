@@ -2,12 +2,15 @@
 	<head>
 		<title>Proyecto SGI</title>
 		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-		<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="ui.js"></script>
-		<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
-		<script type="text/javascript" src="webgl-utils.js"></script>
-		<script type="text/javascript" src="webgl.js"></script>
-    
+		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/ui.js"></script>
+		<script type="text/javascript" src="js/glMatrix-0.9.5.min.js"></script>
+		<script type="text/javascript" src="js/webgl-utils.js"></script>
+		<script type="text/javascript" src="js/webgl.js"></script>
+		
 		<script id="shader-fs" type="x-shader/x-fragment">
 		    precision mediump float;
 
@@ -32,7 +35,6 @@
 		 		vColor = aVertexColor;
 		    }
 		</script>
-
 	</head>
 
 	<body onload="webGLStart();">
