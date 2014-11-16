@@ -4,13 +4,16 @@
 		<title>Proyecto SGI</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+
 		<script src="bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/ui.js"></script>
+		
 		<script type="text/javascript" src="js/glMatrix-0.9.5.min.js"></script>
 		<script type="text/javascript" src="js/webgl-utils.js"></script>
 		<script type="text/javascript" src="js/webgl.js"></script>
+		<script type="text/javascript" src="js/ui.js"></script>
 		
 		<script id="shader-fs" type="x-shader/x-fragment">
 		    precision mediump float;
@@ -41,15 +44,23 @@
 	<body onload="webGLStart();">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-9">
-					<canvas id="canvas" width="700" height="500"></canvas>
+				<div class="col-md-8">
+					<canvas id="canvas" width="650" height="500" ondrop="drop(event)" ondragover="allowDrop(event)"></canvas>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<div class="row">
-						drag n drop
+						<h3><p class="text-center"><span class="label label-primary">Agregar Figura (Drag & Drop)</span></p></h3>
 					</div>
 					<div class="row">
-						menu
+						<img id="pyramidDrag" src="img/piramide.jpg" draggable="true" ondragstart="drag(event)" width="200" height="auto">
+						<img id="cubeDrag" src="img/cubo.jpg" draggable="true" ondragstart="drag(event)" width="150" height="auto">
+					</div>
+					<div class="row">
+						<h3><p class="text-center"><span class="label label-success">Figuras agregadas</span></p></h3>
+					</div>
+					<div class="row">
+						<div id="objectsMenu" class="list-group">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -79,18 +90,18 @@
 					<br>
 					<form oninput="amount.value=scaleX.value">
 				    	<label for="scaleX">X</label>
-			    		<input type="range" id="scaleX" name="scaleX" class="scale" min="-5" max="5" value="0" step="0.05">                                                   
-			        	<output class="text-center" name="amount" for="scaleX">0</output>
+			    		<input type="range" id="scaleX" name="scaleX" class="scale" min="-5" max="5" value="1" step="0.05">                                                   
+			        	<output class="text-center" name="amount" for="scaleX">1</output>
 			        </form>
 			        <form oninput="amount.value=scaleY.value">
 			        	<label for="scaleY">Y</label>
-			    		<input type="range" id="scaleY" name="scaleY" class="scale" min="-5" max="5" value="0" step="0.05">                                                   
-			        	<output class="text-center" name="amount" for="scaleY">0</output>
+			    		<input type="range" id="scaleY" name="scaleY" class="scale" min="-5" max="5" value="1" step="0.05">                                                   
+			        	<output class="text-center" name="amount" for="scaleY">1</output>
 			        </form>
 			        <form oninput="amount.value=scaleZ.value">
 			        	<label for="scaleZ">Z</label>
-			    		<input type="range" id="scaleZ" name="scaleZ" class="scale" min="-5" max="5" value="0" step="0.05">                                                   
-			        	<output class="text-center" name="amount" for="scaleZ">0</output>
+			    		<input type="range" id="scaleZ" name="scaleZ" class="scale" min="-5" max="5" value="1" step="0.05">                                               
+			        	<output class="text-center" name="amount" for="scaleZ">1</output>
 			        </form>
 				</div>
 				<div class="col-md-4">
