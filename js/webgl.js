@@ -287,21 +287,33 @@
 
         mat4.translate(mvMatrix, [-1.5, 0.0, -8.0]);
 
+        for (var key in objects) {
+          if (objects.hasOwnProperty(key)) {
+            mvPushMatrix();
 
-        mvPushMatrix();
+            mat4.translate(mvMatrix, [objects[key].xTrans,0.0,0.0]);
+            mat4.translate(mvMatrix, [0.0,objects[key].yTrans,0.0]);
+            mat4.translate(mvMatrix, [0.0,0.0,objects[key].zTrans]);
 
-        mat4.translate(mvMatrix, [xTrans,0.0,0.0]);
-        mat4.translate(mvMatrix, [0.0,yTrans,0.0]);
-        mat4.translate(mvMatrix, [0.0,0.0,zTrans]);
+            mat4.rotate(mvMatrix, degToRad(objects[key].xRot), [1,0,0]);
+            mat4.rotate(mvMatrix, degToRad(objects[key].yRot), [0,1,0]);
+            mat4.rotate(mvMatrix, degToRad(objects[key].zRot), [0,0,1]);
 
-        mat4.rotate(mvMatrix, degToRad(xRot), [1,0,0]);
-        mat4.rotate(mvMatrix, degToRad(yRot), [0,1,0]);
-        mat4.rotate(mvMatrix, degToRad(zRot), [0,0,1]);
+            mat4.scale(mvMatrix, [objects[key].xScale,1,1]);
+            mat4.scale(mvMatrix, [1,objects[key].yScale,1]);
+            mat4.scale(mvMatrix, [1,1,objects[key].zScale]);
 
-        mat4.scale(mvMatrix, [xScale,1,1]);
-        mat4.scale(mvMatrix, [1,yScale,1]);
-        mat4.scale(mvMatrix, [1,1,zScale]);
+            if (objects[key].type=="pyramid")
+                drawPyramid();
+            if (objects[key].type=="cube")
+                drawCube();
 
+            mvPopMatrix();
+          }
+        }     
+    }
+
+    function drawPyramid(){
         gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, pyramidVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
@@ -310,13 +322,9 @@
 
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLES, 0, pyramidVertexPositionBuffer.numItems);
+    }
 
-        mvPopMatrix();
-
-        mvPushMatrix();
-
-        mat4.rotate(mvMatrix, degToRad(rCube), [1, 1, 1]);
-
+    function drawCube(){
         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
@@ -326,8 +334,6 @@
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
         setMatrixUniforms();
         gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-
-        mvPopMatrix();
     }
 
     function webGLStart() {
@@ -339,6 +345,18 @@
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
 
+        drawScene();
+    }
+
+    var objects = {};
+
+    function addObject(type){
+        if (type=="pyramidDrag"){
+            objects[new Date().getTime()]={xRot:0,yRot:0,zRot:0,xScale:1,yScale:1,zScale:1,xTrans:0,yTrans:0,zTrans:0,type:"pyramid"};
+        }
+        if (type=="cubeDrag"){
+            objects[new Date().getTime()]={xRot:0,yRot:0,zRot:0,xScale:1,yScale:1,zScale:1,xTrans:0,yTrans:0,zTrans:0,type:"cube"};
+        }
         drawScene();
     }
 
