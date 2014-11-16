@@ -1,0 +1,9 @@
+Proyecto WebGL - Ignacio Cardenas Lares
+
+-Para agregar una figura, arrastrar las imagenes de la piramide y del cubo y soltarlas en el canvas (Tantas como se deseen). Al ser agregada una, esta se vera reflejada en el menu lateral "Figuras agregadas". Desde este menu se escoje sobre cual figura aplicar transformaciones.
+
+-Las transformaciones de rotacion y escalado se realizan mediante los elementos de tipo "range" de HTML5. En el caso de la traslación, se hace uso de las flechas del teclado, indicadas dependiendo del eje escogido.
+
+-En el control de camara se puede seleccionar entre perspectiva y ortogonal.
+
+-En la parte superior izquierda se encuentra un reproductor de sonido HTML5.
