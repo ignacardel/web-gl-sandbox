@@ -264,8 +264,10 @@
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
-
+        if ($("#perspective").prop('checked') )
+            mat4.perspective(50, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+        else
+            mat4.ortho(-5.0, 5.0, 5.0, -5.0, 0.1, 100.0, pMatrix);
         mat4.identity(mvMatrix);
 
         mat4.translate(mvMatrix, [-1.5, 0.0, -8.0]);
@@ -277,7 +279,7 @@
             mat4.translate(mvMatrix, [objects[key].xTrans,0.0,0.0]);
             mat4.translate(mvMatrix, [0.0,objects[key].yTrans,0.0]);
             mat4.translate(mvMatrix, [0.0,0.0,objects[key].zTrans]);
-            
+
             mat4.rotate(mvMatrix, degToRad(objects[key].xRot), [1,0,0]);
             mat4.rotate(mvMatrix, degToRad(objects[key].yRot), [0,1,0]);
             mat4.rotate(mvMatrix, degToRad(objects[key].zRot), [0,0,1]);

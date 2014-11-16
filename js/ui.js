@@ -2,6 +2,9 @@ $( document ).ready(function() {
     console.log( "ready!" );
     $(".rotate").on("input", function(){rotate(this.value,this.id)});
     $(".scale").on("input", function(){scale(this.value,this.id)});
+    $('.cameraInput').change(function(){
+        drawScene();
+      })
     $('#objectsMenu').on('click','a', function(e) {
         e.preventDefault();
         $("#objectsMenu a.active").removeClass("active");

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Proyecto SGI</title>
+		<title>Proyecto WebGL</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 		<link rel="stylesheet" href="css/style.css">
@@ -43,6 +43,13 @@
 
 	<body onload="webGLStart();">
 		<div class="container-fluid">
+			<div class="row">
+				<h2 class="text-center">Proyecto de WebGL <span class="label label-danger">Por Ignacio Cardenas</span></h2>
+				<audio id="audio" controls>
+				  <source src="shadows.mp3" type="audio/mpeg">
+				Your browser does not support the audio element.
+				</audio>
+			</div>
 			<div class="row">
 				<div class="col-md-8">
 					<canvas id="canvas" width="650" height="500" ondrop="drop(event)" ondragover="allowDrop(event)"></canvas>
@@ -104,7 +111,7 @@
 			        	<output class="text-center" name="amount" for="scaleZ">1</output>
 			        </form>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-2">
 					<h4><span class="label label-info">Trasladar</span></h4>
 					<br>
 					<form>
@@ -123,6 +130,18 @@
 						<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
 					</form> 
+				</div>
+				<div class="col-md-2">
+					<h4><span class="label label-info">Cámara</span></h4>
+					<br>
+					<div class="btn-group-vertical" data-toggle="buttons">
+					  <label class="btn btn-primary active">
+					    <input class="cameraInput" type="radio" name="camera" id="perspective" autocomplete="off" checked> Perspectiva
+					  </label>
+					  <label class="btn btn-primary">
+					    <input class="cameraInput" type="radio" name="camera" id="option2" autocomplete="off"> Ortogonal
+					  </label>
+					</div>
 				</div>
 			</div>
 		</div>
