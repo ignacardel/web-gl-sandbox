@@ -103,7 +103,6 @@
         return degrees * Math.PI / 180;
     }
 
-
     var pyramidVertexPositionBuffer;
     var pyramidVertexColorBuffer;
     var cubeVertexPositionBuffer;
@@ -185,42 +184,40 @@
         cubeVertexPositionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
         vertices = [
-            // Front face
-            2.0, -1.0,  1.0,
-            4.0, -1.0,  1.0,
-            4.0,  1.0,  1.0,
-            2.0,  1.0,  1.0,
+            -1.0, -1.0,  1.0,
+             1.0, -1.0,  1.0,
+             1.0,  1.0,  1.0,
+            -1.0,  1.0,  1.0,
 
             // Back face
-            2.0, -1.0, -1.0,
-            2.0,  1.0, -1.0,
-            4.0,  1.0, -1.0,
-            4.0, -1.0, -1.0,
+            -1.0, -1.0, -1.0,
+            -1.0,  1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0, -1.0, -1.0,
 
             // Top face
-            2.0,  1.0, -1.0,
-            2.0,  1.0,  1.0,
-            4.0,  1.0,  1.0,
-            4.0,  1.0, -1.0,
+            -1.0,  1.0, -1.0,
+            -1.0,  1.0,  1.0,
+             1.0,  1.0,  1.0,
+             1.0,  1.0, -1.0,
 
             // Bottom face
-            2.0, -1.0, -1.0,
-            4.0, -1.0, -1.0,
-            4.0, -1.0,  1.0,
-            2.0, -1.0,  1.0,
+            -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0, -1.0,  1.0,
+            -1.0, -1.0,  1.0,
 
             // Right face
-            4.0, -1.0, -1.0,
-            4.0,  1.0, -1.0,
-            4.0,  1.0,  1.0,
-            4.0, -1.0,  1.0,
+             1.0, -1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0,  1.0,  1.0,
+             1.0, -1.0,  1.0,
 
             // Left face
-            2.0, -1.0, -1.0,
-            2.0, -1.0,  1.0,
-            2.0,  1.0,  1.0,
-            2.0,  1.0, -1.0,
-
+            -1.0, -1.0, -1.0,
+            -1.0, -1.0,  1.0,
+            -1.0,  1.0,  1.0,
+            -1.0,  1.0, -1.0
 
         ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -263,20 +260,6 @@
         cubeVertexIndexBuffer.numItems = 36;
     }
 
-    var rCube = 0;
-
-    var xRot=0;
-    var yRot=0;
-    var zRot=0;
-
-    var xScale=1;
-    var yScale=1;
-    var zScale=1;
-
-    var xTrans=0;
-    var yTrans=0;
-    var zTrans=0;
-
     function drawScene() {
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -294,7 +277,7 @@
             mat4.translate(mvMatrix, [objects[key].xTrans,0.0,0.0]);
             mat4.translate(mvMatrix, [0.0,objects[key].yTrans,0.0]);
             mat4.translate(mvMatrix, [0.0,0.0,objects[key].zTrans]);
-
+            
             mat4.rotate(mvMatrix, degToRad(objects[key].xRot), [1,0,0]);
             mat4.rotate(mvMatrix, degToRad(objects[key].yRot), [0,1,0]);
             mat4.rotate(mvMatrix, degToRad(objects[key].zRot), [0,0,1]);
@@ -349,13 +332,14 @@
     }
 
     var objects = {};
+    var currentObjectIndex=null;
 
-    function addObject(type){
+    function addObject(type,timeStamp){
         if (type=="pyramidDrag"){
-            objects[new Date().getTime()]={xRot:0,yRot:0,zRot:0,xScale:1,yScale:1,zScale:1,xTrans:0,yTrans:0,zTrans:0,type:"pyramid"};
+            objects[timeStamp]={xRot:0,yRot:0,zRot:0,xScale:1,yScale:1,zScale:1,xTrans:0,yTrans:0,zTrans:0,type:"pyramid"};
         }
         if (type=="cubeDrag"){
-            objects[new Date().getTime()]={xRot:0,yRot:0,zRot:0,xScale:1,yScale:1,zScale:1,xTrans:0,yTrans:0,zTrans:0,type:"cube"};
+            objects[timeStamp]={xRot:0,yRot:0,zRot:0,xScale:1,yScale:1,zScale:1,xTrans:0,yTrans:0,zTrans:0,type:"cube"};
         }
         drawScene();
     }
@@ -363,32 +347,32 @@
     function rotate(r,rotationType){
         switch (rotationType) {
             case "rotateX":
-                if (r>xRot){
-                    xRot += r-xRot;
+                if (r>objects[currentObjectIndex].xRot){
+                    objects[currentObjectIndex].xRot += r-objects[currentObjectIndex].xRot;
                     drawScene();
                 }
-                if (r<xRot){
-                    xRot -= xRot-r;
+                if (r<objects[currentObjectIndex].xRot){
+                    objects[currentObjectIndex].xRot -= objects[currentObjectIndex].xRot-r;
                     drawScene();
                 }               
                 break;
             case "rotateY":
-                if (r>yRot){
-                    yRot += r-yRot;
+                if (r>objects[currentObjectIndex].yRot){
+                    yRot=objects[currentObjectIndex].yRot += r-objects[currentObjectIndex].yRot;
                     drawScene();
                 }
-                if (r<yRot){
-                    yRot -= yRot-r;
+                if (r<objects[currentObjectIndex].yRot){
+                    objects[currentObjectIndex].yRot -= objects[currentObjectIndex].yRot-r;
                     drawScene();
                 }  
                 break;
             case "rotateZ":
-                if (r>zRot){
-                    zRot += r-zRot;
+                if (r>objects[currentObjectIndex].zRot){
+                    objects[currentObjectIndex].zRot += r-objects[currentObjectIndex].zRot;
                     drawScene();
                 }
-                if (r<zRot){
-                    zRot -= zRot-r;
+                if (r<objects[currentObjectIndex].zRot){
+                    objects[currentObjectIndex].zRot -= objects[currentObjectIndex].zRot-r;
                     drawScene();
                 }  
                 break;
@@ -399,13 +383,13 @@
     function scale(s,scaleType){
         switch (scaleType) {
             case "scaleX":
-                xScale = 1+parseFloat(s);
+                objects[currentObjectIndex].xScale = 1+parseFloat(s);
                 break;
             case "scaleY":
-                yScale = 1+parseFloat(s);
+                objects[currentObjectIndex].yScale = 1+parseFloat(s);
                 break;
             case "scaleZ":
-                zScale = 1+parseFloat(s);
+                objects[currentObjectIndex].zScale = 1+parseFloat(s);
                 break;
         }
         drawScene();        
@@ -415,21 +399,21 @@
         switch (translateType) {
             case "x":
                 if (direction=="+")
-                    xTrans += 0.05;
+                    objects[currentObjectIndex].xTrans += 0.05;
                 else
-                    xTrans -= 0.05;
+                    objects[currentObjectIndex].xTrans -= 0.05;
                 break;
             case "y":
                 if (direction=="+")
-                    yTrans += 0.05;
+                    objects[currentObjectIndex].yTrans += 0.05;
                 else
-                    yTrans -= 0.05;
+                    objects[currentObjectIndex].yTrans -= 0.05;
                 break;
             case "z":
                 if (direction=="+")
-                    zTrans += 0.05;
+                    objects[currentObjectIndex].zTrans += 0.05;
                 else
-                    zTrans -= 0.05;
+                    objects[currentObjectIndex].zTrans -= 0.05;
                 break;
         }
         drawScene();
